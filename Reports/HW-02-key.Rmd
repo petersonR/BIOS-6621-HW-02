@@ -13,13 +13,19 @@ library(arsenal)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Note: one observation was determined to be erroneous in an earlier version of this report and is fixed as follows:
+
+```{r}
+df <- read.csv("../DataRaw/lead-iq-01.csv")
+df$IQ[df$IQ== 999] <- 99
+```
+
 ## Lead-IQ Descriptive Statistics
 
 A. A graph showing the IQ levels by location status
 
 ```{r}
 # Read in data using relative file path (.. goes back one subdirectory)
-df <- read.csv("../DataRaw/lead-iq-01.csv")
 boxplot(df$IQ ~ df$Smelter)
 ```
 
@@ -38,7 +44,7 @@ summary(tab1) %>%
 
 C. A couple sentences of text (not on the graph, but in the body of the Rmarkdown document) describing the graph and the table
 
-The graph is hard to see because of an outlier, the table indicates that there are 124 people in the study.
+The table indicates that there are 124 people in the study. It appears the Far group has a higher average IQ.
 
 D. Inline calculations giving the values of the means, that will be updated if the data are changed,
 
