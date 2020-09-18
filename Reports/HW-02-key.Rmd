@@ -6,8 +6,48 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+library(arsenal)
+
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Lead-IQ Descriptive Statistics
+
+A. A graph showing the IQ levels by location status
+
+```{r}
+# Read in data using relative file path (.. goes back one subdirectory)
+df <- read.csv("../DataRaw/lead-iq-01.csv")
+boxplot(df$IQ ~ df$Smelter)
+```
+
+B. At least one nicely formatted table using the 'kable' function,
+
+```{r}
+
+# Use arsenal package
+tab1 <- tableby(~ ., data = df)
+
+# Use kableExtra for extra formatting
+summary(tab1) %>%
+  kable(escape = F) %>% 
+  kable_styling(c("condensed", "striped"), full_width = FALSE)
+```
+
+C. A couple sentences of text (not on the graph, but in the body of the Rmarkdown document) describing the graph and the table
+
+The graph is hard to see because of an outlier, the table indicates that there are 124 people in the study.
+
+D. Inline calculations giving the values of the means, that will be updated if the data are changed,
+
+The overall mean IQ in the study is `r round(mean(df$IQ), 1)` (`r round(mean(df$IQ[df$Smelter == "Near"]), 1)` in the "Near" group and `r round(mean(df$IQ[df$Smelter == "Far"]), 1)` in the "Far" group). 
+
+E. At least one R code chunk.
+
+```{r}
+# Here is another code chunk.
+t.test(IQ ~ Smelter, data = df)
+```
 
